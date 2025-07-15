@@ -49,6 +49,7 @@ const HLogin = () => {
   type="text"
   name="contactNumber"
   placeholder="Contact Number"
+  className="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-300"
   required
   onChange={handleChange}
 />
