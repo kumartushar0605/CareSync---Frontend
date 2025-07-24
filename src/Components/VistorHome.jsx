@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 
 
 import axios from 'axios'; // You'll need to install axios: npm install axios
+import DynamicHeader from './Header';
+import Footer from './Footer';
 
 // API base URL - replace with your actual backend API URL
 const API_BASE_URL = 'https://caresync-backend-uz6k.onrender.com';
@@ -252,34 +254,7 @@ const VisitorHome = () => {
     return (
       <div className="bg-gray-50 min-h-screen">
         {/* Header */}
-        <header className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Hospital Finder</h1>
-          <p className="text-blue-100">Find hospitals and check availability</p>
-        </div>
-        <div className="relative">
-          <button
-            className="flex items-center gap-2 bg-blue-500 px-4 py-2 rounded"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-          >
-            <span>{name}</span>
-            <span>👤</span>
-          </button>
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2  bg-white text-black shadow-md rounded">
-             <button
-  className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full"
-  onClick={handleLogout}
->
-  Logout
-</button>
-
-            </div>
-          )}
-        </div>
-      </div>
-    </header>
+      <DynamicHeader/>
         
         {/* Main Content */}
         <main className="container mx-auto p-4">
@@ -475,11 +450,7 @@ const VisitorHome = () => {
         </main>
         
         {/* Footer */}
-        <footer className="bg-gray-800 text-white p-6 mt-auto">
-          <div className="container mx-auto">
-            <p className="text-center text-gray-300">© 2025 Hospital Finder. All rights reserved.</p>
-          </div>
-        </footer>
+       <Footer/>
       </div>
     );
   }
@@ -546,11 +517,7 @@ const VisitorHome = () => {
         </main>
         
         {/* Footer */}
-        <footer className="bg-gray-800 text-white p-6 mt-auto">
-          <div className="container mx-auto">
-            <p className="text-center text-gray-300">© 2025 Hospital Finder. All rights reserved.</p>
-          </div>
-        </footer>
+       <Footer/>
       </div>
     );
   }
@@ -673,7 +640,9 @@ const VisitorHome = () => {
             </div>
           </div>
           </main>
+          <Footer/>
           </div>
+          
   );
 };
 }

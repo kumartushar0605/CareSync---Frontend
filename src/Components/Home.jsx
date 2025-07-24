@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Heart, MapPin, Calendar, Bed, Users, Phone, Mail, Clock, Shield, Award, Stethoscope, Activity, ChevronRight, Menu, X } from 'lucide-react';
+import DynamicHeader from './Header';
+import Footer from './Footer';
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,61 +89,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md shadow-lg z-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 flex items-center group">
-                <div className="h-10 w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold mr-3 transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                  <Heart className="w-5 h-5" />
-                </div>
-                <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  CareSync
-                </span>
-              </div>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {['Home', 'About', 'Services', 'Contact'].map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-blue-50 relative group"
-                >
-                  {item}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-                </a>
-              ))}
-            </div>
-            
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
-              <button 
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none transition-all duration-300"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Mobile menu */}
-        <div className={`md:hidden transition-all duration-300 ${isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden bg-white border-t`}>
-          <div className="px-4 pt-2 pb-3 space-y-1">
-            {['Home', 'About', 'Services', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-lg text-base font-medium hover:bg-blue-50 transition-all duration-300"
-              >
-                {item}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
+      <DynamicHeader/>
 
       {/* Hero Section */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
@@ -283,106 +231,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Contact Section */}
-      <div className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Get In Touch
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Ready to experience better healthcare? Contact us today
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Phone className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Call Us</h3>
-              <p className="text-gray-300">+91 6207850955</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Mail className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Email Us</h3>
-              <p className="text-gray-300">info@CareSync.com</p>
-            </div>
-            
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Clock className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Hours</h3>
-              <p className="text-gray-300">24/7 Emergency Care</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="bg-black text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="h-10 w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold mr-3">
-                  <Heart className="w-5 h-5" />
-                </div>
-                <span className="font-bold text-xl">CareSync</span>
-              </div>
-              <p className="text-gray-400 leading-relaxed">
-                Providing exceptional healthcare services with cutting-edge technology and compassionate care.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-bold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                {['About Us', 'Services', 'Doctors', 'Contact'].map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-bold mb-4">Services</h4>
-              <ul className="space-y-2">
-                {['Emergency Care', 'Cardiology', 'General Medicine', 'Surgery'].map((service) => (
-                  <li key={service}>
-                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-                      {service}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-bold mb-4">Contact Info</h4>
-              <div className="space-y-2 text-gray-400">
-                <p>ITER ROAD</p>
-                <p>Medical City, MC 12345</p>
-                <p>+91 6207850955</p>
-                <p>info@CareSync.com</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 pt-8 text-center">
-            <p className="text-gray-400">
-              © 2025 HealthCare Plus. All rights reserved. Built with modern technology for better healthcare.
-            </p>
-          </div>
-        </div>
-      </footer>
+     <Footer/>
     </div>
   );
 }

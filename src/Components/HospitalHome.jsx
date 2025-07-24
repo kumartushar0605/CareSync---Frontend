@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from "next/navigation";
+import DynamicHeader from './Header';
+import Footer from './Footer';
 
 
 export default function HospitalManagement() {
@@ -367,34 +369,7 @@ export default function HospitalManagement() {
 
   return (
     <>
-    <header className="bg-blue-600 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">Hospital Finder</h1>
-          <p className="text-blue-100">Find hospitals and check availability</p>
-        </div>
-        <div className="relative">
-          <button
-            className="flex items-center gap-2 bg-blue-500 px-4 py-2 rounded"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-          >
-            <span>{name}</span>
-            <span>👤</span>
-          </button>
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2  bg-white text-black shadow-md rounded">
-            <button
-  className="block px-4 py-2 text-gray-800 hover:bg-gray-200 w-full"
-  onClick={handleLogout}
->
-  Logout
-</button>
-
-            </div>
-          )}
-        </div>
-      </div>
-    </header>
+    <DynamicHeader/>
    
     <div className="min-h-screen bg-gray-100 p-6">
        
@@ -837,6 +812,7 @@ export default function HospitalManagement() {
         
       </div>
       </div>
+      <Footer/>
     </>
   );
 }
