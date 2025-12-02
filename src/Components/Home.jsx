@@ -1,237 +1,206 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Heart, MapPin, Calendar, Bed, Users, Phone, Mail, Clock, Shield, Award, Stethoscope, Activity, ChevronRight, Menu, X } from 'lucide-react';
+import {
+  Brain,
+  Heart,
+  Shield,
+  Sparkles,
+  Activity,
+  Users,
+  Clock,
+  ChevronRight
+} from 'lucide-react';
+
+// Assuming these components exist in your project
 import DynamicHeader from './Header';
 import Footer from './Footer';
+import ServicesHome from './ServicesHome';
 
 export default function Home() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  // ---------------------
+  // DATA CONFIG
+  // ---------------------
   const heroSlides = [
     {
-      title: "Advanced Healthcare Solutions",
-      subtitle: "Cutting-edge medical technology meets compassionate care",
-      gradient: "from-blue-600 via-blue-700 to-purple-800"
+      icon: Brain,
+      title: "Smart Hospital Finder",
+      subtitle: "Locate the best care near you with real-time availability and AI-driven department insights.",
+      gradient: "from-blue-600 via-indigo-700 to-purple-800",
+      accent: "bg-blue-500"
     },
     {
-      title: "Expert Medical Team", 
-      subtitle: "Board-certified specialists dedicated to your wellness",
-      gradient: "from-teal-600 via-cyan-700 to-blue-800"
+      icon: Sparkles,
+      title: "AI Symptom Guidance",
+      subtitle: "Not sure where to go? Enter your symptoms and get instant, intelligent department recommendations.",
+      gradient: "from-purple-600 via-fuchsia-700 to-indigo-800",
+      accent: "bg-purple-500"
     },
     {
-      title: "24/7 Emergency Care",
-      subtitle: "Round-the-clock medical assistance when you need it most",
-      gradient: "from-purple-600 via-pink-700 to-red-800"
-    }
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const services = [
-    {
-      icon: <Heart className="w-8 h-8" />,
-      title: "Cardiology",
-      description: "Advanced heart care with state-of-the-art equipment"
-    },
-    {
-      icon: <Stethoscope className="w-8 h-8" />,
-      title: "General Medicine",
-      description: "Comprehensive primary healthcare services"
-    },
-    {
-      icon: <Activity className="w-8 h-8" />,
-      title: "Emergency Care",
-      description: "24/7 emergency medical services"
-    },
-    {
-      icon: <Bed className="w-8 h-8" />,
-      title: "Inpatient Care",
-      description: "Comfortable rooms with modern amenities"
-    }
-  ];
-
-  const features = [
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      title: "Real-time Location Search",
-      description: "Find nearby hospitals and healthcare facilities instantly"
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Doctor Management",
-      description: "Comprehensive doctor profiles and scheduling system"
-    },
-    {
-      icon: <Bed className="w-6 h-6" />,
-      title: "Bed Tracking",
-      description: "Real-time bed availability and resource management"
-    },
-    {
-      icon: <Calendar className="w-6 h-6" />,
-      title: "Smart Scheduling",
-      description: "Automated appointment and resource scheduling"
+      icon: Shield,
+      title: "Unified Management",
+      subtitle: "Empowering hospitals to manage doctors, beds, and facilities through one centralized dashboard.",
+      gradient: "from-teal-600 via-emerald-700 to-cyan-800",
+      accent: "bg-teal-500"
     }
   ];
 
   const stats = [
-    { number: "10,000+", label: "Patients Served" },
-    { number: "50+", label: "Expert Doctors" },
-    { number: "24/7", label: "Emergency Care" },
-    { number: "15+", label: "Departments" }
+    { number: "50+", label: "Partner Hospitals", icon: Activity },
+    { number: "100+", label: "Doctors Onboard", icon: Users },
+    { number: "24/7", label: "Real-Time Updates", icon: Clock },
+    { number: "30+", label: "Specialties Covered", icon: Heart }
   ];
 
+  // ---------------------
+  // EFFECTS
+  // ---------------------
+  
+  // Auto-slide logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 6000); // Increased to 6s for better readability
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
+
+  // Mouse parallax effect
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      // Normalize coordinates to reduce calculation load
+      const x = (e.clientX / window.innerWidth) * 20;
+      const y = (e.clientY / window.innerHeight) * 20;
+      setMousePosition({ x, y });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const CurrentIcon = heroSlides[currentSlide].icon;
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <DynamicHeader/>
+    <div className="min-h-screen bg-gray-50 flex flex-col font-sans selection:bg-blue-200 selection:text-blue-900">
+      <DynamicHeader />
 
-      {/* Hero Section */}
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-        <div className={`absolute inset-0 bg-gradient-to-br ${heroSlides[currentSlide].gradient} transition-all duration-1000`}>
-          <div className="absolute inset-0 bg-black/20"></div>
-        </div>
+      {/* HERO SECTION 
+        relative h-screen ensures it takes full height but allows content to flow 
+      */}
+      <main className="relative flex-grow">
         
-        {/* Animated background elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        </div>
+        <div className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden pt-20 pb-32">
+          
+          {/* BACKGROUND LAYERS (Smoother Transition) */}
+          {heroSlides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 bg-gradient-to-br ${slide.gradient} transition-opacity duration-1000 ease-in-out z-0`}
+              style={{ opacity: currentSlide === index ? 1 : 0 }}
+            />
+          ))}
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              <span className="block">{heroSlides[currentSlide].title}</span>
-              <span className="block text-2xl md:text-3xl lg:text-4xl font-normal text-white/90 mt-4">
-                {heroSlides[currentSlide].subtitle}
+          {/* BACKGROUND PATTERNS */}
+          <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150 mix-blend-overlay"></div>
+          <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+          {/* ANIMATED BLOB */}
+          <div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-[100px] pointer-events-none transition-transform duration-200 ease-out z-0"
+            style={{ 
+              transform: `translate(${mousePosition.x * -2}px, ${mousePosition.y * -2}px)` 
+            }}
+          />
+
+          {/* MAIN HERO CONTENT */}
+          <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+            
+            {/* AI Badge */}
+            <div className="animate-fade-in-up">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white text-sm font-medium shadow-lg hover:bg-white/20 transition-colors cursor-default">
+                <Brain className="w-4 h-4 text-blue-200" />
+                <span>Next-Gen Healthcare AI</span>
               </span>
+            </div>
+
+            {/* Icon Circle */}
+              <div className="flex justify-center mt-4 mb-6">
+            <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-full border border-white/30">
+              <CurrentIcon className="w-16 h-16 text-white animate-bounce" />
+            </div>
+          </div>
+
+
+            {/* Typography */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6 max-w-4xl drop-shadow-sm transition-all duration-500">
+              {heroSlides[currentSlide].title}
             </h1>
             
-            <p className="mt-8 max-w-3xl mx-auto text-xl text-white/90 leading-relaxed">
-              Experience the future of healthcare management with our comprehensive platform designed for patients and healthcare providers
+            <p className="text-lg md:text-2xl text-blue-50/90 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
+              {heroSlides[currentSlide].subtitle}
             </p>
-            
+
             {/* Action Buttons */}
-            <div className="mt-12 px-4 sm:px-0">
-              <div className="flex flex-col gap-4 justify-center items-center max-w-md mx-auto sm:max-w-4xl sm:flex-row sm:gap-6">
-                <Link 
-                  href="/visitorhome"
-                  className="group relative px-6 py-4 bg-white text-blue-600 rounded-full font-semibold text-base sm:text-lg shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 w-full sm:w-auto sm:min-w-[240px]"
-                >
-                  <Heart className="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" />
-                  <span className="whitespace-nowrap">Patient Portal</span>
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                </Link>
-                
-                <Link 
-                  href="/hospitalhome"
-                  className="group relative px-6 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold text-base sm:text-lg hover:bg-white hover:text-blue-600 transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 w-full sm:w-auto sm:min-w-[240px]"
-                >
-                  <Shield className="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" />
-                  <span className="whitespace-nowrap">Hospital Management</span>
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-                </Link>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <Link href="/visitorhome" className="group relative px-8 py-4 bg-white text-blue-900 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:bg-blue-50 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                <Heart className="w-5 h-5 text-red-500 group-hover:scale-125 transition-transform" />
+                Find Care Now
+                <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+              </Link>
+
+              <Link href="/hospitalhome" className="group px-8 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-xl font-bold text-lg hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                <Shield className="w-5 h-5" />
+                Hospital Login
+              </Link>
+            </div>
+
+            {/* Slide Indicators */}
+            <div className="flex gap-3 mt-12">
+              {heroSlides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    currentSlide === idx ? 'w-8 bg-white' : 'w-2 bg-white/30 hover:bg-white/50'
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Slide indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === currentSlide ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="relative -mt-20 z-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-2xl p-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* STATS SECTION (Overlapping) 
+          Negative margin pulls it up over the hero background
+        */}
+        <div className="relative z-20 -mt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/50 p-8 md:p-12">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
               {stats.map((stat, index) => (
-                <div key={index} className="text-center group">
-                  <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div key={index} className="flex flex-col items-center text-center group">
+                  <div className="mb-4 p-3 bg-blue-50 rounded-2xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                    <stat.icon className="w-6 h-6 md:w-8 md:h-8" />
+                  </div>
+                  <div className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-1">
                     {stat.number}
                   </div>
-                  <div className="text-gray-600 font-medium">{stat.label}</div>
+                  <div className="text-sm md:text-base font-medium text-gray-500 uppercase tracking-wide">
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Features Section */}
-      <div className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Advanced Healthcare Management
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Built with cutting-edge technology to improve healthcare access and operational efficiency
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="group p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border border-gray-100 hover:border-blue-200"
-              >
-                <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+        {/* SERVICES SECTION */}
+      
+           <ServicesHome />
+       
 
-      {/* Services Section */}
-      <div className="py-20 bg-gradient-to-r from-blue-600 to-purple-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Our Medical Services
-            </h2>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Comprehensive healthcare services delivered by expert medical professionals
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className="group p-8 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:bg-white"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {service.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      </main>
 
-     <Footer/>
+      <Footer />
     </div>
   );
 }

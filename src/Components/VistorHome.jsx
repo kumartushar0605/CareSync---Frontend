@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { Search, MapPin, Calendar, Clock, Filter, X } from 'lucide-react';
 import { useRouter } from "next/navigation";
 
@@ -8,9 +8,14 @@ import { useRouter } from "next/navigation";
 import axios from 'axios'; // You'll need to install axios: npm install axios
 import DynamicHeader from './Header';
 import Footer from './Footer';
+import GenAi from './GenAi';
+import VisitorHospitalCom from './VisitorHospitalCom';
 
 // API base URL - replace with your actual backend API URL
 const API_BASE_URL = 'https://caresync-backend-uz6k.onrender.com';
+
+
+
 
 
 
@@ -18,7 +23,7 @@ const API_BASE_URL = 'https://caresync-backend-uz6k.onrender.com';
 const INDIAN_STATES = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 
   'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 
-  'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 
+  'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Orissa', 'Punjab', 
   'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 
   'Uttarakhand', 'West Bengal'
 ];
@@ -31,6 +36,8 @@ const MAJOR_CITIES = [
 
 const VisitorHome = () => {
   // State for search inputs
+    const hospitalsRef = useRef(null);
+
   const router = useRouter();
 
  
@@ -373,57 +380,13 @@ const VisitorHome = () => {
           
           {/* Hospital Results Section */}
           {!isLoading && hospitals.length > 0 && (
-            <div className="flex-grow flex flex-col items-center justify-center p-6 relative overflow-hidden mt-16">
-              {/* Star Background */}
-              <div className="absolute inset-0 overflow-hidden">
-                {[...Array(20)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="absolute text-white animate-pulse"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                      width: `${Math.random() * 10 + 5}px`,
-                      height: `${Math.random() * 10 + 5}px`,
-                      opacity: Math.random() * 0.5 + 0.2,
-                      animationDuration: `${Math.random() * 5 + 2}s`,
-                    }}
-                  />
-                ))}
-              </div>
-
-              {/* Heading */}
-              <div
-                className={`text-center mb-10 transition-all duration-1000 ${
-                  animateIn ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
-                }`}
-              >
-                <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-500 via-indigo-400 to-blue-600 bg-clip-text text-transparent">
-                  Hospitals Near You
-                </h1>
-                <p className="text-gray-600 text-lg mt-4">Find the best medical services nearby</p>
-              </div>
-
-              {/* Hospital Listings */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
-                {hospitals.map((hospital) => (
-                  <div
-                    key={hospital._id}
-                    className="relative bg-white rounded-xl overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-lg border border-gray-200 hover:border-blue-500 cursor-pointer p-6"
-                    onClick={() => handleHospitalClick(hospital)}
-                  >
-                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-500 rounded-t-xl"></div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">{hospital.hospitalName}</h2>
-                    <p className="text-gray-600">{hospital.city}, {hospital.state}</p>
-                    <p className="text-gray-600">Pincode: {hospital.pincode}</p>
-                    <p className="text-gray-700 mt-3"><span className="font-medium">Contact:</span> {hospital.contactNumber}</p>
-                    <p className="mt-3 text-blue-600 font-medium">
-                      {hospital.departments.length} Departments Available
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            
+            <>
+            <GenAi hospitalsRef={hospitalsRef} hospitals={hospitals} handleHospitalClick={handleHospitalClick}/>
+  
+            <VisitorHospitalCom hospitalsRef={hospitalsRef}  hospitals={hospitals} animateIn={animateIn} handleHospitalClick={handleHospitalClick} 
+            headingData={{ text: "All Hospitals Near You", subtext: "Find the best hospital in your area" }}/>
+            </>
           )}
           
           {/* No Results */}

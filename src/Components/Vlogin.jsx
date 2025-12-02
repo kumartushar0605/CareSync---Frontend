@@ -24,9 +24,19 @@ const Vlogin = () => {
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Login failed");
-
+ console.log(data);
       alert("Login Successful!");
-      router.push("/dashboard"); // Redirect after login
+       if (data?.Userr) {
+        const { name, _id, contactNumber } = data.Userr;
+      
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("VName", name);
+          localStorage.setItem("idV", _id);
+          localStorage.setItem("contact", contactNumber);
+        }
+      }
+      router.push("/visitorhome"); // Redirect after login
     } catch (err) {
       setError(err.message);
     } finally {
