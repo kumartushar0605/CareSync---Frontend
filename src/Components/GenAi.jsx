@@ -19,40 +19,37 @@ export default function GenAi({ hospitalsRef, hospitals ,animateIn,handleHospita
   setIsAnalyzing(true);
 
   try {
-    const prompt = `
-      Identify the medical department required for these symptoms: "${symptomText}".
-      Like
-      Pediatrics, Dermatology, General Medicine, Cardiology, Neurology, Orthopedics,
-      Emergency, Surgery, ENT, Radiology, ICU.
-      Return ONLY the department name.
-    `;
-
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: prompt,
+    const res = await fetch("https://caresync-backend-uz6k.onrender.com/Visitor/analyze-symptoms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ symptoms: symptomText }),
     });
 
-    console.log("RAW AI RESPONSE:", response);
+    const data = await res.json();
 
-    const department =
-      response.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+    if (!data.department) {
+      throw new Error("AI did not return a department");
+    }
 
-    console.log("AI Department:", department);
+    console.log("AI Department:", data.department);
 
-    setFilteredDepartment(department);
+    setFilteredDepartment(data.department);
 
+    // your existing API call remains same
     await fetch("/api/filter-hospitals", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ department }),
+      body: JSON.stringify({ department: data.department }),
     });
+
   } catch (err) {
-    console.error("GenAI Error:", err);
+    console.error("AI Error:", err);
     alert("AI failed. Try again.");
   } finally {
     setIsAnalyzing(false);
   }
 };
+
 
 
  const aiFilteredHospitals = filteredDepartment
