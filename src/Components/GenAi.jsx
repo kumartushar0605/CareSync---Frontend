@@ -33,14 +33,8 @@ export default function GenAi({ hospitalsRef, hospitals ,animateIn,handleHospita
 
     console.log("AI Department:", data.department);
 
-    setFilteredDepartment(data.department);
 
-    // your existing API call remains same
-    await fetch("/api/filter-hospitals", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ department: data.department }),
-    });
+    setFilteredDepartment(data.department);
 
   } catch (err) {
     console.error("AI Error:", err);
@@ -134,7 +128,7 @@ export default function GenAi({ hospitalsRef, hospitals ,animateIn,handleHospita
       <div className="p-6 ">
        {aiFilteredHospitals.length > 0 ? (
         <>
-        <VisitorHospitalCom hospitalsRef={hospitalsRef}  hospitals={hospitals} animateIn={animateIn} handleHospitalClick={handleHospitalClick} 
+        <VisitorHospitalCom hospitalsRef={hospitalsRef}  hospitals={aiFilteredHospitals} animateIn={animateIn} handleHospitalClick={handleHospitalClick} 
         headingData={{ text:`Hospitals Near You with Department ${filteredDepartment}`, subtext: "Find the best hospital in your area" }}/>
         </>
 ) : (
