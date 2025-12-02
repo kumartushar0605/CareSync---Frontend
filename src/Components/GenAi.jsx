@@ -9,7 +9,7 @@ export default function GenAi({ hospitalsRef, hospitals ,animateIn,handleHospita
   const [filteredDepartment, setFilteredDepartment] = useState('')
 
  const ai = new GoogleGenAI({
-  apiKey: "AIzaSyCeXu1VwC3VFrDeVDfLvflCrziXQsIiVhM",  
+  apiKey: process.env.NEXT_PUBLIC_GEN_AI_KEY,  
 });
  
 
