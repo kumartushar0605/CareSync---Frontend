@@ -19,7 +19,7 @@ const HLogin = () => {
  const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await axios.post("https://caresync-backend-uz6k.onrender.com/Hospital/Login", formData, {
+    const response = await axios.post("https://caresync-api.vercel.app/Hospital/Login", formData, {
       withCredentials: true,
     });
 

@@ -12,7 +12,7 @@ import GenAi from './GenAi';
 import VisitorHospitalCom from './VisitorHospitalCom';
 
 // API base URL - replace with your actual backend API URL
-const API_BASE_URL = 'https://caresync-backend-uz6k.onrender.com';
+const API_BASE_URL = 'https://caresync-api.vercel.app';
 
 
 

@@ -21,7 +21,7 @@ const HRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://caresync-backend-uz6k.onrender.com/Hospital/Register", formData, {
+      const response = await axios.post("https://caresync-api.vercel.app/Hospital/Register", formData, {
         withCredentials: true, // Ensures cookies are sent
       });
     
