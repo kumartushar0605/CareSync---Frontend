@@ -19,7 +19,7 @@ export default function GenAi({ hospitalsRef, hospitals ,animateIn,handleHospita
   setIsAnalyzing(true);
 
   try {
-    const res = await fetch("https://caresync-api.vercel.app/Visitor/analyze-symptoms", {
+    const res = await fetch("https://caresync-backend-uz6k.onrender.com/Visitor/analyze-symptoms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ symptoms: symptomText }),

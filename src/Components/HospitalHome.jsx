@@ -109,13 +109,11 @@ export default function HospitalManagement() {
     setLoading(true);
     try {
       const id = localStorage.getItem("id");
-      console.log("iddddd is "+ id)
-      const response = await axios.get(`https://caresync-api.vercel.app/hospitals/${id}/departments`);
+      const response = await axios.get(`https://caresync-backend-uz6k.onrender.com/hospitals/${id}/departments`);
      
       setDepartments(response.data);
     } catch (err) {
       setError('Failed to fetch departments');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -125,7 +123,7 @@ export default function HospitalManagement() {
     const id = localStorage.getItem("id");
     setLoading(true);
     try {
-      const response = await axios.get(`https://caresync-api.vercel.app/hospitals/${id}/doctors`);
+      const response = await axios.get(`https://caresync-backend-uz6k.onrender.com/hospitals/${id}/doctors`);
       setDoctors(response.data);
     } catch (err) {
       setError('Failed to fetch doctors');
@@ -139,7 +137,7 @@ export default function HospitalManagement() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.put(`https://caresync-api.vercel.app/hospitals/${hospitalData.id}/departments`, newDepartment);
+      const response = await axios.put(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalData.id}/departments`, newDepartment);
       setDepartments([...departments, response.data.newDepartment]);
       setNewDepartment({
         name: '',
@@ -161,7 +159,7 @@ export default function HospitalManagement() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.put(`https://caresync-api.vercel.app/hospitals/${hospitalData.id}/departments/${selectedDepartment}/doctors`, newDoctor);
+      const response = await axios.put(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalData.id}/departments/${selectedDepartment}/doctors`, newDoctor);
       setDoctors((prevDoctors) => [...prevDoctors,  response.data.doctor]);
      
       setNewDoctor({
@@ -197,7 +195,7 @@ export default function HospitalManagement() {
     try {
       const hospitalid = localStorage.getItem("id");
       const response = await axios.put(
-        `https://caresync-api.vercel.app/hospitals/${hospitalid}/departments/${selectedDepartmentE}/equipment`, 
+        `https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalid}/departments/${selectedDepartmentE}/equipment`, 
         { name: newEquipment }
       );
 
@@ -226,7 +224,7 @@ export default function HospitalManagement() {
     
     setLoading(true);
     try {
-      const response = await axios.put(`https://caresync-api.vercel.app/hospitals/${hospitalData.id}/departments/${selectedDepartmentF}/facilities`, { facilities: newFacility });
+      const response = await axios.put(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalData.id}/departments/${selectedDepartmentF}/facilities`, { facilities: newFacility });
       
       // Update the departments state
       const updatedDepartments = departments.map(dept => 
@@ -250,7 +248,7 @@ export default function HospitalManagement() {
     setLoading(true);
     try {
       const hospitalid = localStorage.getItem("id");
-      const response = await axios.patch(`https://caresync-api.vercel.app/hospitals/${hospitalid}/departments/${department}`, 
+      const response = await axios.patch(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalid}/departments/${department}`, 
         { [field]: value }
       );
 
@@ -309,11 +307,11 @@ export default function HospitalManagement() {
     
     try {
       if (type === 'department') {
-        await axios.delete(`https://caresync-api.vercel.app/hospitals/${hospitalid}/departments/${Departementname}`);
+        await axios.delete(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalid}/departments/${Departementname}`);
         setDepartments(departments.filter(dept => dept.name !== Departementname));
         setSuccess('Department deleted successfully');
       } else if (type === 'doctor') {
- await axios.delete(`https://caresync-api.vercel.app/hospitals/${hospitalid}/doctors/${name}/Department/${Departementname}`);
+ await axios.delete(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalid}/doctors/${name}/Department/${Departementname}`);
         setDoctors(doctors.filter(doc => doc._id !== id));
         setSuccess("Doctor deleted successfully");
 
@@ -321,7 +319,7 @@ export default function HospitalManagement() {
         const [deptId, equipId] = id.split('-'); // Ensure correct splitting
     
         try {
-            await axios.delete(`https://caresync-api.vercel.app/hospitals/${hospitalid}/departments/${deptId}/equipment/${name}`);
+            await axios.delete(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalid}/departments/${deptId}/equipment/${name}`);
     
             setDepartments(prevDepartments =>
                 prevDepartments.map(dept =>
@@ -342,7 +340,7 @@ export default function HospitalManagement() {
     
       } else if (type === 'facility') {
         const [deptId, facilityId] = id.split('-');
-        await axios.delete(`https://caresync-api.vercel.app/hospitals/${hospitalid}/departments/${deptId}/facilities/${name}`);
+        await axios.delete(`https://caresync-backend-uz6k.onrender.com/hospitals/${hospitalid}/departments/${deptId}/facilities/${name}`);
         
         setDepartments(prevDepartments =>
           prevDepartments.map(dept =>

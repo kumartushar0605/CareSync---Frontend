@@ -15,7 +15,7 @@ const Vlogin = () => {
     setError("");
 
     try {
-      const response = await fetch("https://caresync-api.vercel.app/Vistor/Login", {
+      const response = await fetch("https://caresync-backend-uz6k.onrender.com/Vistor/Login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

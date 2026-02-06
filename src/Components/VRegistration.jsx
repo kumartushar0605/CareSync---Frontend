@@ -24,7 +24,7 @@ const VRegistration = () => {
     }
     
     try {
-      const response = await axios.post('hhttps://caresync-api.vercel.app/Visitor/Register', form, {
+      const response = await axios.post('https://caresync-backend-uz6k.onrender.com/Visitor/Register', form, {
         withCredentials: true,
       });
       if (response.data.alreadyRegistered) {
